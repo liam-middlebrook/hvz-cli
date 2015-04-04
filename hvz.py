@@ -18,5 +18,15 @@ def api_set(key):
     with open(key_file, "w") as f_hnd:
         f_hnd.write(key)
 
+@main.command()
+def rules():
+    url = "https://hvz.rit.edu/api/v1/rules"
+    r = requests.get(url)
+    rules_data = r.json()
+
+    for rule in rules_data['rulesets']:
+        print(rule['title'])
+        print(rule['body'])
+
 if __name__ == "__main__":
     main()
