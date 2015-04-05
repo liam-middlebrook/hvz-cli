@@ -16,9 +16,16 @@ def main():
 @click.option("--key", prompt="Your HvZ API Key",
               help="You can find your API online!")
 def api_set(key):
+    url = "https://hvz.rit.edu/api/v1/test/key"
+    params = {"apikey": key}
+    r = requests.get(url, params=params)
+    check_error(r)
+
     key_file = os.path.join(os.getenv("HOME"), ".hvz.api")
     with open(key_file, "w") as f_hnd:
         f_hnd.write(key)
+
+    print("APIkey Set Successfully!")
 
 def api_get():
     key_file = os.path.join(os.getenv("HOME"), ".hvz.api")
@@ -103,7 +110,7 @@ def antivirus_valid():
 
 @main.command()
 def profile():
-    url = "http://hvz.rit.edu/api/v1/profile"
+    url = "https://hvz.rit.edu/api/v1/profile"
     params = {"apikey": api_get()}
     r = requests.get(url, params=params)
     check_error(r)
