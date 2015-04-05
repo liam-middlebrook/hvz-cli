@@ -45,5 +45,20 @@ def rules():
         print(rule['title'])
         print(rule['body'])
 
+@main.command()
+def missions():
+    url = "https://hvz.rit.edu/api/v1/missions"
+    data = {"apikey": api_get()}
+    r = requests.get(url, params=data)
+    check_error(r)
+
+    missions_data = r.json()
+
+    for mission in missions_data['missions']:
+        print(mission['title'])
+        print(mission['team'])
+        print(mission['post_date'])
+        print(mission['body'])
+
 if __name__ == "__main__":
     main()
