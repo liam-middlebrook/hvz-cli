@@ -90,5 +90,15 @@ def antivirus(antivirus, zombie):
     antivirus = r.json()
     print("{0} has used an antivirus!".format(antivirus["zombie_name"]))
 
+@main.command("antivirus-valid")
+def antivirus_valid():
+    url = "https://hvz.rit.edu/api/v1/antivirus/valid_time"
+    r = requests.get(url)
+
+    if r.json()["result"]:
+        print("An Antivirus CAN be used at this time")
+    else:
+        print("An Antivirus CAN NOT be used at this time")
+
 if __name__ == "__main__":
     main()
