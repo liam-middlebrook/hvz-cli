@@ -100,5 +100,31 @@ def antivirus_valid():
     else:
         print("An Antivirus CAN NOT be used at this time")
 
+@main.command()
+def profile():
+    url = "https://hvz.rit.edu/api/v1/profile"
+    params = {"apikey": api_get()}
+    r = requests.get(url, params=params)
+    check_error(r)
+
+    profile = r.json()["profile"]
+
+    print("ID: " + str(profile["id"]))
+    print("APIkey: " + profile["apikey"])
+    print("Name: " + profile["fullname"])
+    print("Email: " + profile["email"])
+    if not profile["clan"] is None:
+        print("Clan: " + profile["clan"])
+    print("Team: " + profile["team"])
+    #badges here
+    if not profile["avatar"] is None:
+        print("Avatar: " + profile["avatar"])
+    print("Zombie Attributes")
+    print("\tID: " + profile["zombieId"])
+    print("\tHumans Tagged: " + str(profile["humansTagged"]))
+    #infections here
+    print("Human IDs:")
+    for id in profile["humanIds"]:
+        print(id["id_string"] + " Active: " + str(id["active"]))
 if __name__ == "__main__":
     main()
