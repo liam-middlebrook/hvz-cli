@@ -67,15 +67,15 @@ def missions():
 @click.option("--longitude", default=None)
 def infect(human, zombie, latitude, longitude):
     url = "https://hvz.rit.edu/api/v1/register_infection"
-    data = {"apikey": api_get(), "human": human, "zombie": zombie,
+    params = {"apikey": api_get()}
+    data = {"human": human, "zombie": zombie,
             "latitude": latitude, "longitude": longitude}
-    print(data)
-    r = requests.post(url, params=data)
+    r = requests.post(url, data=data, params=params)
     check_error(r)
 
     infection = r.json()
-    print("{0} has infected {1}!", infection["zombie_name"],
-          infection["human_name"])
+    print("{0} has infected {1}!".format(infection["zombie_name"],
+          infection["human_name"]))
 
 if __name__ == "__main__":
     main()
