@@ -118,11 +118,12 @@ def profile():
         print("Clan: " + profile["clan"])
 
     print("Team: " + profile["team"])
-    print('Badges:')
-    for badge in profile["badges"]:
-        print("\tTitle: " + badge["name"])
-        print("\tID: " + str(badge["id"]))
-        print("\tDescription: " + badge["description"])
+    if len(profile["badges"]) > 0:
+        print('Badges:')
+        for badge in profile["badges"]:
+            print("\tTitle: " + badge["name"])
+            print("\tID: " + str(badge["id"]))
+            print("\tDescription: " + badge["description"])
 
     if not profile["avatar"] is None:
         print("Avatar: " + profile["avatar"])
@@ -130,13 +131,13 @@ def profile():
     print("Zombie Attributes")
     print("\tID: " + profile["zombieId"])
     print("\tHumans Tagged: " + str(profile["humansTagged"]))
-    #infections here
-    print("Infections")
-    for infection in profile["infections"]:
-        print("\tID: " + str(infection["id"]))
-        print("\tHuman: " + infection["human"])
-        print("\tTime: " + datetime.datetime.fromtimestamp(
-              int(infection["time"])).strftime('%Y-%m-%d %H:%M:%S'))
+    if len(profile["infections"]) > 0:
+        print("Infections")
+        for infection in profile["infections"]:
+            print("\tID: " + str(infection["id"]))
+            print("\tHuman: " + infection["human"])
+            print("\tTime: " + datetime.datetime.fromtimestamp(
+                  int(infection["time"])).strftime('%Y-%m-%d %H:%M:%S'))
 
     print("Human IDs:")
     for id in profile["humanIds"]:
