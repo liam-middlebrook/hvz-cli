@@ -149,5 +149,17 @@ def profile():
     print("Human IDs:")
     for id in profile["humanIds"]:
         print(id["id_string"] + " Active: " + str(id["active"]))
+
+@main.command("set-clan")
+@click.argument("clan")
+def set_clan(clan):
+    url = "https://hvz.rit.edu/api/v1/profile/clan"
+    params = {"apikey": api_get()}
+    data = {"clan": clan}
+    r = requests.post(url, data=data, params=params)
+    check_error(r)
+
+    print("Clan Successfully Set!")
+
 if __name__ == "__main__":
     main()
