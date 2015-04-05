@@ -3,6 +3,7 @@
 # HVZ CLI
 
 import click
+import datetime
 import os
 import requests
 import sys
@@ -102,7 +103,7 @@ def antivirus_valid():
 
 @main.command()
 def profile():
-    url = "https://hvz.rit.edu/api/v1/profile"
+    url = "http://hvz.rit.edu/api/v1/profile"
     params = {"apikey": api_get()}
     r = requests.get(url, params=params)
     check_error(r)
@@ -115,14 +116,28 @@ def profile():
     print("Email: " + profile["email"])
     if not profile["clan"] is None:
         print("Clan: " + profile["clan"])
+
     print("Team: " + profile["team"])
-    #badges here
+    print('Badges:')
+    for badge in profile["badges"]:
+        print("\tTitle: " + badge["name"])
+        print("\tID: " + str(badge["id"]))
+        print("\tDescription: " + badge["description"])
+
     if not profile["avatar"] is None:
         print("Avatar: " + profile["avatar"])
+
     print("Zombie Attributes")
     print("\tID: " + profile["zombieId"])
     print("\tHumans Tagged: " + str(profile["humansTagged"]))
     #infections here
+    print("Infections")
+    for infection in profile["infections"]:
+        print("\tID: " + str(infection["id"]))
+        print("\tHuman: " + infection["human"])
+        print("\tTime: " + datetime.datetime.fromtimestamp(
+              int(infection["time"])).strftime('%Y-%m-%d %H:%M:%S'))
+
     print("Human IDs:")
     for id in profile["humanIds"]:
         print(id["id_string"] + " Active: " + str(id["active"]))
