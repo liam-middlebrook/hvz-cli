@@ -61,7 +61,7 @@ def missions():
         print(mission['body'])
 
 @main.command()
-@click.option("--human" , prompt="Human ID", help='Human ID')
+@click.option("--human", prompt="Human ID", help='Human ID')
 @click.option("--zombie", prompt="Zombie ID", help='Zombie ID')
 @click.option("--latitude", default=None)
 @click.option("--longitude", default=None)
@@ -76,6 +76,19 @@ def infect(human, zombie, latitude, longitude):
     infection = r.json()
     print("{0} has infected {1}!".format(infection["zombie_name"],
           infection["human_name"]))
+
+@main.command()
+@click.option("--antivirus", prompt="Antivirus ID", help="Antivirus ID")
+@click.option("--zombie", prompt="Zombie ID", help='Zombie ID')
+def antivirus(antivirus, zombie):
+    url = "https://hvz.rit.edu/api/v1/antivirus"
+    params = {"apikey": api_get()}
+    data = {"antivirus": antivirus, "zombie": zombie}
+    r = requests.post(url, data=data, params=params)
+    check_error(r)
+
+    antivirus = r.json()
+    print("{0} has used an antivirus!".format(antivirus["zombie_name"]))
 
 if __name__ == "__main__":
     main()
