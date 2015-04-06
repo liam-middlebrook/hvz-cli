@@ -161,5 +161,41 @@ def set_clan(clan):
 
     print("Clan Successfully Set!")
 
+@main.command()
+def status():
+    url = "https://hvz.rit.edu/api/v1/status"
+    r = requests.get(url)
+    check_error(r)
+
+    status = r.json()
+
+    url = "https://hvz.rit.edu/api/v1/status/teams"
+    r = requests.get(url)
+    check_error(r)
+    teams = r.json()
+
+    if status["status"] == "no-game":
+        print("No game available in the near future!")
+        pass
+
+    game = status["game"]
+    print("Game Start: " + datetime.datetime.fromtimestamp(
+          int(game["start"])).strftime('%Y-%m-%d %H:%M:%S'))
+
+    print("Game End: " + datetime.datetime.fromtimestamp(
+          int(game["end"])).strftime('%Y-%m-%d %H:%M:%S'))
+
+    suffix = None
+    if status["status"] == "pre-game":
+        suffix = " Until Game Starts!"
+    else:
+        suffix = " Remaining in the game!"
+
+    print(datetime.datetime.fromtimestamp(
+          int(game["time"]["diff"])).strftime('%H:%M:%S') + suffix)
+
+    print("Humans: " + str(teams['humans']))
+    print("Zombies: " + str(teams['zombies']))
+
 if __name__ == "__main__":
     main()
