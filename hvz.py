@@ -279,5 +279,24 @@ def find_player(name):
         print("No Players Found!")
 
 
+@main.command("list-infections")
+def list_infections():
+    infection_list = []
+    url = "https://hvz.rit.edu/api/v1/infections/"
+    slug = 0
+    more_data = True
+
+    while more_data:
+        r = requests.get(url + str(slug))
+        check_error(r)
+        slug += 1
+        infections = r.json()
+        more_data = infections["continues"]
+
+        infection_list.extend(infections["infections"])
+
+    for infection in infection_list:
+        print_infection(infection)
+
 if __name__ == "__main__":
     main()
