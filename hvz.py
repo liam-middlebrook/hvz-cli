@@ -255,5 +255,29 @@ def list_players(sort):
     for player in player_list:
         print_player(player)
 
+
+@main.command("find-player")
+@click.argument("name")
+def find_player(name):
+    player_list = []
+    url = "https://hvz.rit.edu/api/v1/players/search"
+    more_data = True
+    params = {"term": name}
+
+    while more_data:
+        r = requests.get(url, params=params)
+        check_error(r)
+        players = r.json()
+        more_data = players["continues"]
+
+        player_list.extend(players["players"])
+
+    for player in player_list:
+        print_player(player)
+
+    if not len(player_list) > 0:
+        print("No Players Found!")
+
+
 if __name__ == "__main__":
     main()
