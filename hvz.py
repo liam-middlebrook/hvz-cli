@@ -234,5 +234,26 @@ def playerinfo(player_id):
     profile = r.json()
     print_player(profile)
 
+@main.command("list-players")
+@click.option("--sort", default="team")
+def list_players(sort):
+    player_list = []
+    url = "https://hvz.rit.edu/api/v1/players/"
+    slug = 0
+    more_data = True
+    params = {"sort": sort}
+
+    while more_data:
+        r = requests.get(url + str(slug), params=params)
+        check_error(r)
+        slug += 1
+        players = r.json()
+        more_data = players["continues"]
+
+        player_list.extend(players["players"])
+
+    for player in player_list:
+        print_player(player)
+
 if __name__ == "__main__":
     main()
