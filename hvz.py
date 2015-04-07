@@ -224,5 +224,15 @@ def print_infection(infection):
     print("\tTime: " + datetime.datetime.fromtimestamp(
           int(infection["time"])).strftime('%Y-%m-%d %H:%M:%S'))
 
+@main.command()
+@click.argument("player_id")
+def playerinfo(player_id):
+    url = "https://hvz.rit.edu/api/v1/player/" + str(player_id)
+    r = requests.get(url)
+    check_error(r)
+
+    profile = r.json()
+    print_player(profile)
+
 if __name__ == "__main__":
     main()
