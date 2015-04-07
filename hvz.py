@@ -144,10 +144,7 @@ def profile():
     if len(profile["infections"]) > 0:
         print("Infections")
         for infection in profile["infections"]:
-            print("\tID: " + str(infection["id"]))
-            print("\tHuman: " + infection["human"])
-            print("\tTime: " + datetime.datetime.fromtimestamp(
-                  int(infection["time"])).strftime('%Y-%m-%d %H:%M:%S'))
+            print_infection(infection)
 
     print("Human IDs:")
     for id in profile["humanIds"]:
@@ -199,6 +196,27 @@ def status():
 
     print("Humans: " + str(teams['humans']))
     print("Zombies: " + str(teams['zombies']))
+
+def print_player(profile):
+    print("ID: " + str(profile["id"]))
+    print("Name: " + profile["fullname"])
+    if not profile["clan"] is None:
+        print("Clan: " + profile["clan"])
+
+    print("Team: " + profile["team"])
+    if len(profile["badges"]) > 0:
+        print('Badges:')
+        for badge in profile["badges"]:
+            print("\tTitle: " + badge["name"])
+            print("\tID: " + str(badge["id"]))
+            print("\tDescription: " + badge["description"])
+
+    if not profile["avatar"] is None:
+        print("Avatar: " + profile["avatar"])
+
+    print("Zombie Attributes")
+    print("\tHumans Tagged: " + str(profile["humansTagged"]))
+    print("---")
 
 if __name__ == "__main__":
     main()
