@@ -41,6 +41,9 @@ def check_error(response):
         for error in errors["errors"]:
             print(error)
         sys.exit(1)
+    if response.status_code == 404:
+        print("404 Not Found!")
+        sys.exit(1)
 
 @main.command()
 def rules():
