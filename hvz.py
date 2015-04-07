@@ -218,5 +218,11 @@ def print_player(profile):
     print("\tHumans Tagged: " + str(profile["humansTagged"]))
     print("---")
 
+def print_infection(infection):
+    print("\tID: " + str(infection["id"]))
+    print("\tHuman: " + infection["human"])
+    print("\tTime: " + datetime.datetime.fromtimestamp(
+          int(infection["time"])).strftime('%Y-%m-%d %H:%M:%S'))
+
 if __name__ == "__main__":
     main()
